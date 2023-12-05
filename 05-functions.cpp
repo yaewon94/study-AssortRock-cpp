@@ -1,23 +1,18 @@
-// ÇÔ¼ö¼±¾ğ
-// ¼±¾ğ, Á¤ÀÇ¸¦ µ¿½Ã¿¡ ÇÒ ¼öµµ ÀÖÀ½
-int pow(int, int);
+// í•¨ìˆ˜ì„ ì–¸
+// ì„ ì–¸, ì •ì˜ë¥¼ ë™ì‹œì— í•  ìˆ˜ë„ ìˆìŒ
+int GetFactorial(int);
 
 int main()
 {
-	int result = pow(2, 10);
+	int result = GetFactorial(3);
 
 	return 0;
 }
 
-// ÇÔ¼öÁ¤ÀÇ
-int pow(int num, int exp)
+// í•¨ìˆ˜ì •ì˜
+// ì¬ê·€í•¨ìˆ˜ : ê°„ë‹¨í•œ ë¬¸ì œ í•´ê²°ì´ ê°€ëŠ¥í•œ ê²½ìš° ì‚¬ìš© (ex.ê³„ì¸µêµ¬ì¡°(íŠ¸ë¦¬) ìˆœíšŒ)
+int GetFactorial(int num)
 {
-	int result = 1;
-
-	for (int i=0; i<exp; i++)
-	{
-		result *= num;
-	}
-
-	return result;
+	if (num == 1) return num;
+	else num * GetFactorial(--num);
 }
