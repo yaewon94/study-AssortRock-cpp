@@ -17,7 +17,6 @@ int main(void)
 	unsigned char c4 = 128;	//	(unsigned char : 0 ~ 255)
 
 	short s = 32767;
-	wchar_t wc = '가';
 	int i = 2147483647;
 	long long l = 9223372036854775807;
 
@@ -49,6 +48,10 @@ int main(void)
 	// 4. 타입 앨리어스
 	typedef int MyInt;
 	MyInt val = 0;
+
+	// 5. 상수화 (const 키워드)
+	const int cVal = 100;
+	//cVal = 200;	// 초기화 외에 값 변경 불가
 
 	return 0;
 }
