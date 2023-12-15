@@ -1,4 +1,37 @@
 #include <stdio.h>	// #define NULL 0 포함
+#include <iostream>
+
+struct Player
+{
+	int level;
+	int hp;
+	int mp;
+};
+
+// 매개변수로 포인터를 전달
+void Add(int a, int b, int* result)
+{
+	*result = a + b;
+}
+
+void PrintPlayer(const Player* player)
+{
+	//player->level = 100;			// const Player 타입의 포인터로 설정했기 때문에 원본의 값 변경 불가
+	Player* p = (Player*)player;	// 그러나 (어떤 미친사람이) 강제캐스팅을 통해 값을 변경할 수 있음
+	p->level = 100;
+	printf("레벨 = " + player->level);
+	printf("체력 = " + player->hp);
+	printf("마나 = " + player->mp);
+}
+
+// 매개변수로 주소를 전달
+void PrintPlayer(const Player& player)
+{
+	printf("레벨 = " + player.level);
+	printf("체력 = " + player.hp);
+	printf("마나 = " + player.mp);
+}
+
 
 int main()
 {
@@ -66,16 +99,19 @@ int main()
 
 	//
 	// 5. const 포인터
+	// 상수타입에 대한 포인터
 	int num = 1;
 	const int* cp1 = &num;
 	int result = *cp1;
 	//*cp = 100;	// 포인터가 가리키는 곳의 값을 수정할 수 없음
 	*((int*)cp1) = 100;	// 상수화된 포인터를 강제로 캐스팅해서 바꾼 경우 (미친거임)
 
+	// 포인터 상수
 	int* const cp2 = &num;
 	*cp2 = 100;
 	//cp2 = &result;	// 포인터가 가리키는 곳을 바꿀 수 없음
 
+	// 상수타입에 대한 포인터 상수
 	const int* const cp3 = &num;
 	//*cp3 = 100;		// 포인터가 가리키는 곳의 값을 바꿀 수 없음
 	//cp3 = &result;	// 포인터가 가리키는 곳을 바꿀 수 없음
@@ -86,7 +122,28 @@ int main()
 	int* p = (int*)&cVal;
 	*p = 100;	// 강제로 캐스팅해서 상수화된 변수의 값을 바꿀 수 있음
 
+	//
+	// 7. 포인터타입을 매개변수로 받는 함수 예시
+	int result = 0;
+	Add(10, 20, &result);
 
+	// 크기가 큰 구조체(또는 클래스) 타입은 포인터타입(또는 주소타입) 매개변수로 전달하면 값 복사가 일어나지 않아 메모리를 절약 가능
+	Player player = { 1, 100, 100 };
+	PrintPlayer(&player);	// PrintPlayer(const Player*) 호출
+	PrintPlayer(player);	// PrintPlayer(const Player&) 호출
+
+	// [check]
+	short shortArr[10] = { 1,2,3,4,5,6,7,8,9,10 };
+	int* intPtr = (int*)shortArr;
+	intPtr += 2;							// int 포인터의 2칸은 8 byte 이므로
+	short shortValue = *((short*)intPtr);	// short 포인터의 관점에선 4칸을 간 것
+
+	// [check]
+	// cpu 에 따라 메모리 값을 읽는 방법이 다름 : 똑바로, 역순
+	// => charArr[2] = {i,h}로 선언하는 경우, cpu 별로 shortValue 값이 다를 수 있음 (단, i != j 인 정수) 
+	char charArr[2] = { 2,2 };			// 메모리에 {00000010, 00000010} 으로 저장됨
+	short* shortPtr = (short*)charArr;	// short 포인터는 2 byte 를 1칸으로 보므로
+	shortValue = *shortPtr;				// 0000001000000010 == 514 를 가리킴
 
 	return 0;
 }
