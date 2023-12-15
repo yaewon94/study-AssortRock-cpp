@@ -15,7 +15,8 @@
 // * 프로그램 시작 시 초기화, 종료 시 해제
 //
 // 3. 힙 : 동적할당 영역
-// 4. ROM(Read Only Memory) : 코드 및 초기화 데이터(ex.상수 리터럴)
+// 
+// 4. ROM(Read Only Memory) : 코드 및 초기화 데이터(ex. const 리터럴(123), 문자열 리터럴("hello"))
 //
 
 #include "FunctionTest.h"
