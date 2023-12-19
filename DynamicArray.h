@@ -1,12 +1,18 @@
 #pragma once
 
-// µ¿Àû¹è¿­ ¿ªÇÒÀ» ¼öÇàÇÒ ¼ö ÀÖ´Â ÀÚ·áÇü Á¤ÀÇ (int°ª ¿¹½Ã)
+//
+// C++ ì˜ vector.h ì— êµ¬í˜„ë˜ì–´ ìˆìŒ
+//
+
+// ë™ì ë°°ì—´ ì—­í• ì„ ìˆ˜í–‰í•  ìˆ˜ ìˆëŠ” ìë£Œí˜• ì •ì˜ (intê°’ ì˜ˆì‹œ)
 struct DynamicArray
 {
-	int* pData;	// µ¥ÀÌÅÍ¸¦ ÀúÀåÇÒ ÁÖ¼Ò
-	int maxLength;		// Çã¿ë °¡´ÉÇÑ ÃÖ´ë ±æÀÌ
-	int currentLength;	// ÇöÀç ÀúÀåµÈ ±æÀÌ
+	int* pData;	// ë°ì´í„°ë¥¼ ì €ì¥í•  ì£¼ì†Œ
+	int maxLength;		// í—ˆìš© ê°€ëŠ¥í•œ ìµœëŒ€ ê¸¸ì´
+	int currentLength;	// í˜„ì¬ ì €ì¥ëœ ê¸¸ì´
 };
 
 void InitArray(DynamicArray*, const int);
 void Push(DynamicArray*, const int);
+void Resize(DynamicArray*);
+int Get(DynamicArray*, const int);
