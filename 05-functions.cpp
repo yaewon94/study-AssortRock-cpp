@@ -6,11 +6,11 @@
 //int GetFibonacci(int);
 //#include "FunctionTest.h"
 #include <iostream>
-#include <string.h>
 
 void BubbleSort(int*, const int);
 //void InsertSort(const int*, int*, const int, const int);
 void InsertSort(int*, int*, const int, const int);
+void InsertSort(int*, int);
 
 int main()
 {
@@ -20,9 +20,10 @@ int main()
 	int arr[5] = { 1, 5, 3, 2, 4 };
 	const int Length = sizeof(arr) / sizeof(int);
 	//BubbleSort(arr, Length)
-	const int Value = 0;
-	int* result = new int[Length + 1] {};
-	InsertSort(arr, result, Length, Value);
+	//const int Value = 0;
+	//int* result = new int[Length + 1] {};
+	//InsertSort(arr, result, Length, Value);
+	InsertSort(arr, Length);
 
 	/*
 	std::cout << "결과출력" << std::endl;
@@ -32,7 +33,7 @@ int main()
 	}
 	*/
 
-	delete[] result;
+	//delete[] result;
 
 	return 0;
 }
@@ -88,8 +89,8 @@ void BubbleSort(int* arr, const int Length)
 	}
 }
 
+/*
 // 삽입정렬 (방법 1 : 삽입 후 정렬)
-
 void InsertSort(const int* oldArr, int* newArr, const int Length, const int Value)
 {
 	// 1. 새로운 배열에 기존 값 저장
@@ -104,6 +105,7 @@ void InsertSort(const int* oldArr, int* newArr, const int Length, const int Valu
 	// 3. 버블정렬 호출
 	BubbleSort(newArr, Length + 1);
 }
+*/
 
 
 // 삽입정렬 (방법 2 : 정렬 후 삽입)
@@ -131,5 +133,30 @@ void InsertSort(int* oldArr, int* newArr, const int Length, const int Value)
 
 			break;
 		}
+	}
+}
+
+// 삽입정렬 [선생님 풀이]
+void InsertSort(int* arr, int count)
+{
+	for (int i=1; i<count; i++)
+	{
+		int temp = arr[i];
+
+		int j = i - 1;
+		for (; j>=0; j--)
+		{
+			if (temp < arr[j])
+			{
+				arr[j + 1] = arr[j];
+			}
+			else
+			{
+				arr[j + 1] = temp;
+				break;
+			}
+		}
+
+		arr[j + 1] = temp;
 	}
 }
