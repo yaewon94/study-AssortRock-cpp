@@ -1,24 +1,36 @@
 #pragma once
 
 //
-// C++ list.h ¿¡ ±¸ÇöµÇ¾î ÀÖÀ½
+// C++ list.h ì— êµ¬í˜„ë˜ì–´ ìˆìŒ
 //
 
-// ÇÑ¹æÇâ ¸µÅ©µå ¸®½ºÆ®ÀÇ ³ëµå (intÇü ¿¹½Ã)
+// í•œë°©í–¥ ë§í¬ë“œ ë¦¬ìŠ¤íŠ¸ì˜ ë…¸ë“œ (intí˜• ì˜ˆì‹œ)
 struct Node
 {
 	int data;
 	Node* pNext;
 };
 
-// ¸µÅ©µå ¸®½ºÆ® ¿ªÇÒÀ» ÇÒ ¼ö ÀÖ´Â ÀÚ·áÇü Á¤ÀÇ
-struct LinkedList
+// ë§í¬ë“œ ë¦¬ìŠ¤íŠ¸ ì—­í• ì„ í•  ìˆ˜ ìˆëŠ” ìë£Œí˜• ì •ì˜
+//struct LinkedList
+class LinkedList
 {
-	Node* pHead;	// Ã¹¹øÂ° ³ëµå
-	int currentCount;
+	private:
+		void Reverse(Node*);
+
+	public:
+		Node* pHead;	// ì²«ë²ˆì§¸ ë…¸ë“œ
+		int currentCount;
+		~LinkedList();
+		void PushBack(const int);
+		void PushFront(const int);
+		int Get(const int);
+		void Reverse();
 };
 
+/*
 void PushBack(LinkedList*, const int);
 void PushFront(LinkedList*, const int);
 int Get(LinkedList*, const int);
 void Reverse(LinkedList*);
+*/
