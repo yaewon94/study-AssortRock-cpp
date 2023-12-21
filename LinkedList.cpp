@@ -6,72 +6,123 @@ int main()
 {
 	LinkedList list = {};
 
-	PushBack(&list, 1);
-	PushBack(&list, 2);
-	PushBack(&list, 3);
-	PushFront(&list, 100);
+	//PushBack(&list, 1);
+	//PushBack(&list, 2);
+	//PushBack(&list, 3);
+	//PushFront(&list, 100);
 	//Get(&list, 0);
-	Reverse(&list);
-	while (list.pHead->pNext)
-	{
-		std::cout << list.pHead->data << std::endl;
-		list.pHead = list.pHead->pNext;
-	}
+	//Reverse(&list);
+	list.PushBack(1);
+	list.PushBack(2);
+	list.PushFront(100);
+	list.Get(0);
+	list.Reverse();
 
 	return 0;
 }
 
-// ¸®½ºÆ®ÀÇ ¸Ç µÚ¿¡ ¿ø¼Ò Ãß°¡
+// ì†Œë©¸ì
+LinkedList::~LinkedList()
+{
+	// ë¦¬ìŠ¤íŠ¸ë¥¼ ìˆœíšŒí•˜ë©´ì„œ ë™ì ìœ¼ë¡œ í• ë‹¹ë°›ì€ ë…¸ë“œë“¤ì„ ëª¨ë‘ í•´ì œ
+	Node* pNode = pHead;
+
+	while (pNode)
+	{
+		Node* pTemp = pNode->pNext;
+		free(pNode);
+		pNode = pTemp;
+	}
+}
+
+// ë¦¬ìŠ¤íŠ¸ì˜ ë§¨ ë’¤ì— ì›ì†Œ ì¶”ê°€
+/*
 void PushBack(LinkedList* list, const int Value)
 {
-	// 1. »õ·Î¿î ³ëµå »ı¼º
+	// 1. ìƒˆë¡œìš´ ë…¸ë“œ ìƒì„±
 	Node* pNode = (Node*)malloc(sizeof(Node));
 	pNode->data = Value;
 	pNode->pNext = nullptr;
 
-	// 2. µ¥ÀÌÅÍ ÀÔ·ÂÀÌ ÃÖÃÊÀÎÁö ¾Æ´ÑÁö Ã¼Å©
+	// 2. ë°ì´í„° ì…ë ¥ì´ ìµœì´ˆì¸ì§€ ì•„ë‹Œì§€ ì²´í¬
 	if (list->pHead == nullptr)
 	{
 		list->pHead = pNode;
 	}
 	else
 	{
-		// ¸®½ºÆ®¸¦ ¼øÈ¸ÇØ¼­ ¸¶Áö¸· ³ëµå Ã£±â
+		// ë¦¬ìŠ¤íŠ¸ë¥¼ ìˆœíšŒí•´ì„œ ë§ˆì§€ë§‰ ë…¸ë“œ ì°¾ê¸°
 		Node* pLast = list->pHead;
 		while (pLast->pNext)
 		{
 			pLast = pLast->pNext;
 		}
 
-		// ¸¶Áö¸· ³ëµåÀÇ next Æ÷ÀÎÅÍ·Î »õ·Î »ı¼ºÇÑ ³ëµå °¡¸®Å´
+		// ë§ˆì§€ë§‰ ë…¸ë“œì˜ next í¬ì¸í„°ë¡œ ìƒˆë¡œ ìƒì„±í•œ ë…¸ë“œ ê°€ë¦¬í‚´
 		pLast->pNext = pNode;
 
-		// ¸®½ºÆ® Å©±â Áõ°¡
+		// ë¦¬ìŠ¤íŠ¸ í¬ê¸° ì¦ê°€
 		list->currentCount++;
 	}
 }
+*/
+void LinkedList::PushBack(const int Value)
+{
+	Node* pNode = (Node*)malloc(sizeof(Node));
+	pNode->data = Value;
+	pNode->pNext = nullptr;
 
-// ¸®½ºÆ®ÀÇ ¸Ç ¾Õ¿¡ ¿ø¼Ò Ãß°¡
+	if (pHead == nullptr)
+	{
+		pHead = pNode;
+	}
+	else
+	{
+		Node* pLast = pHead;
+		while (pLast->pNext)
+		{
+			pLast = pLast->pNext;
+		}
+
+		pLast->pNext = pNode;
+		currentCount++;
+	}
+}
+
+// ë¦¬ìŠ¤íŠ¸ì˜ ë§¨ ì•ì— ì›ì†Œ ì¶”ê°€
+/*
 void PushFront(LinkedList* list, const int Value)
 {
-	// 1. ³ëµå »ı¼º
+	// 1. ë…¸ë“œ ìƒì„±
 	Node* pNode = (Node*)malloc(sizeof(Node));
 	pNode->data = Value;
 	pNode->pNext = list->pHead;
 
-	// 2. »õ·Î »ı¼ºµÈ ³ëµå¸¦ ¸®½ºÆ®ÀÇ head Æ÷ÀÎÅÍ°¡ °¡¸®Å°°Ô ÇÔ
+	// 2. ìƒˆë¡œ ìƒì„±ëœ ë…¸ë“œë¥¼ ë¦¬ìŠ¤íŠ¸ì˜ head í¬ì¸í„°ê°€ ê°€ë¦¬í‚¤ê²Œ í•¨
 	list->pHead = pNode;
 	
-	// 3. ¸®½ºÆ® Å©±â Áõ°¡
+	// 3. ë¦¬ìŠ¤íŠ¸ í¬ê¸° ì¦ê°€
 	list->currentCount++;
 }
+*/
+void LinkedList::PushFront(const int Value)
+{
+	Node* pNode = (Node*)malloc(sizeof(Node));
+	pNode->data = Value;
+	pNode->pNext = pHead;
 
-// ÇØ´ç ÀÎµ¦½ºÀÇ °ª °¡Á®¿À±â
-// ¸®½ºÆ®ÀÇ ´ÜÁ¡ : ÇØ´ç ÀÎµ¦½ºÀÇ °ªÀ» °¡Á®¿À±â À§ÇØ, ¸®½ºÆ®ÀÇ Ã³À½ºÎÅÍ ¼øÈ¸ÇØ¾ß ÇÔ
+	pHead = pNode;
+
+	currentCount++;
+}
+
+// í•´ë‹¹ ì¸ë±ìŠ¤ì˜ ê°’ ê°€ì ¸ì˜¤ê¸°
+// ë¦¬ìŠ¤íŠ¸ì˜ ë‹¨ì  : í•´ë‹¹ ì¸ë±ìŠ¤ì˜ ê°’ì„ ê°€ì ¸ì˜¤ê¸° ìœ„í•´, ë¦¬ìŠ¤íŠ¸ì˜ ì²˜ìŒë¶€í„° ìˆœíšŒí•´ì•¼ í•¨
+/*
 int Get(LinkedList* list, const int Index)
 {
-	// ÇöÀç ¸®½ºÆ® Å©±âº¸´Ù ÀÎµ¦½º¸¦ Å©°Ô ÁöÁ¤ÇÑ °æ¿ì
-	assert(!(Index >= list->currentCount));
+	// í˜„ì¬ ë¦¬ìŠ¤íŠ¸ í¬ê¸°ë³´ë‹¤ ì¸ë±ìŠ¤ë¥¼ í¬ê²Œ ì§€ì •í•œ ê²½ìš°
+	if(Index >= list->currentCount) assert(!(Index >= list->currentCount));
 
 	Node* pNode = list->pHead;
 
@@ -82,39 +133,62 @@ int Get(LinkedList* list, const int Index)
 
 	return pNode->data;
 }
+*/
+int LinkedList::Get(const int Index)
+{
+	if(Index >= currentCount) assert(!(Index >= currentCount));
 
-// Àç±ÍÇÔ¼ö¸¦ ÀÌ¿ëÇØ¼­ ¸®½ºÆ® ¿ª¼øÀ¸·Î ¸¸µé±â
+	Node* pNode = pHead;
+
+	for (int i = 0; i < Index; i++)
+	{
+		pNode = pNode->pNext;
+	}
+
+	return pNode->data;
+}
+
+// ì¬ê·€í•¨ìˆ˜ë¥¼ ì´ìš©í•´ì„œ ë¦¬ìŠ¤íŠ¸ ì—­ìˆœìœ¼ë¡œ ë§Œë“¤ê¸°
+/*
 void Reverse(Node* pNode, LinkedList* list)
 {
-	/*
-	if (pNode->pNext != nullptr)
-	{
-		Node* pTemp = pNode->pNext;
-		pTemp->pNext = pNode;
-		list->pHead = pTemp;
-		Reverse(pNode->pNext, list);
-	}
-	else
-	{
-		list->pHead = pNode;
-	}
-	*/
-
 	if (pNode->pNext != nullptr)
 	{
 		bool isHead = false;
 		if (pNode == list->pHead) isHead = true;
 		Reverse(pNode->pNext, list);
-		pNode->pNext->pNext = pNode;		// ÀÚ±âÀÇ ´ÙÀ½³ëµåÀÇ ´ÙÀ½ÀÌ ÀÚ±â¸¦ °¡¸®Å°µµ·Ï
-		if (isHead) pNode->pNext = nullptr;	// ¸¶Áö¸· ³ëµåÀÇ ´ÙÀ½À» nullptr·Î ¸¸µé¾îÁÜ
+		pNode->pNext->pNext = pNode;		// ìê¸°ì˜ ë‹¤ìŒë…¸ë“œì˜ ë‹¤ìŒì´ ìê¸°ë¥¼ ê°€ë¦¬í‚¤ë„ë¡
+		if (isHead) pNode->pNext = nullptr;	// ë§ˆì§€ë§‰ ë…¸ë“œì˜ ë‹¤ìŒì„ nullptrë¡œ ë§Œë“¤ì–´ì¤Œ
 	}
 	else
 	{
 		list->pHead = pNode;
 	}
 }
+*/
+void LinkedList::Reverse(Node* pNode)
+{
+	if (pNode->pNext != nullptr)
+	{
+		bool isHead = false;
+		if (pNode == pHead) isHead = true;
+		Reverse(pNode->pNext);
+		pNode->pNext->pNext = pNode;		// ìê¸°ì˜ ë‹¤ìŒë…¸ë“œì˜ ë‹¤ìŒì´ ìê¸°ë¥¼ ê°€ë¦¬í‚¤ë„ë¡
+		if (isHead) pNode->pNext = nullptr;	// ë§ˆì§€ë§‰ ë…¸ë“œì˜ ë‹¤ìŒì„ nullptrë¡œ ë§Œë“¤ì–´ì¤Œ
+	}
+	else
+	{
+		pHead = pNode;
+	}
+}
 
+/*
 void Reverse(LinkedList* list)
 {
 	Reverse(list->pHead, list);
+}
+*/
+void LinkedList::Reverse()
+{
+	Reverse(pHead);
 }
