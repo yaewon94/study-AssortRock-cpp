@@ -8,6 +8,8 @@
 #include <iostream>
 
 void BubbleSort(int*, const int);
+
+// 함수 오버로딩 : 함수의 이름은 같고 매개변수를 다르게 해서, 다른 기능을 하는 함수를 만들 수 있음
 //void InsertSort(const int*, int*, const int, const int);
 void InsertSort(int*, int*, const int, const int);
 void InsertSort(int*, int);
