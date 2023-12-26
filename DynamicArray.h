@@ -71,7 +71,7 @@ template<typename T>
 void DynamicArray<T>::Resize()
 {
 	//int* newArr = (int*)malloc(maxLength * 2 * sizeof(int));
-	T* newArr = new T[maxLength  2];
+	T* newArr = new T[maxLength *= 2];
 
 	for (int i = 0; i < maxLength; i++)
 	{
