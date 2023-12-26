@@ -15,11 +15,14 @@ int main()
 	Get(&arr, 100);
 	*/
 	const int Size = 3;
-	DynamicArray arr = { Size };
+	DynamicArray<int> arr(Size);
 	arr.Push(1);
 	arr.Push(2);
 	arr.Push(3);
 	arr.Get(0);
+	arr.Capacity();
+	arr.Size();
+	arr[0] = 10;
 
 	return 0;
 }
@@ -34,20 +37,6 @@ void InitArray(DynamicArray* arr, const int MaxLength)
 }
 */
 
-// 생성자
-DynamicArray::DynamicArray(const int MaxLength)
-{
-	pData = (int*)malloc(sizeof(int) * MaxLength);
-	maxLength = MaxLength;
-	currentLength = 0;
-}
-
-// 소멸자
-DynamicArray::~DynamicArray()
-{
-	if(pData != nullptr) free(pData);
-}
-
 // 배열의 맨 뒤에 값 추가
 /*
 void Push(DynamicArray* arr, const int Value)
@@ -58,11 +47,6 @@ void Push(DynamicArray* arr, const int Value)
 	arr->pData[arr->currentLength++] = Value;
 
 }*/
-void DynamicArray::Push(const int Value)
-{
-	if (currentLength == maxLength) Resize();
-	pData[currentLength++] = Value;
-}
 
 // 배열 재할당
 /*
@@ -87,21 +71,6 @@ void Resize(DynamicArray* arr)
 	arr->maxLength *= 2;
 }
 */
-void DynamicArray::Resize()
-{
-	int* newArr = (int*)malloc(maxLength * 2 * sizeof(int));
-
-	for (int i = 0; i < maxLength; i++)
-	{
-		newArr[i] = pData[i];
-	}
-
-	free(pData);
-
-	pData = newArr;
-
-	maxLength *= 2;
-}
 
 // 배열 값 가져오기
 /*
@@ -113,9 +82,3 @@ int Get(DynamicArray* arr, const int Index)
 	return arr->pData[Index];
 }
 */
-int DynamicArray::Get(const int Index)
-{
-	if (Index >= currentLength) assert(!(Index>=currentLength));
-	
-	return pData[Index];
-}
