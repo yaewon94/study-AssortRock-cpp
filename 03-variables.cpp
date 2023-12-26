@@ -48,6 +48,11 @@ int Test1()
 	return ++s;
 }
 
+class DynamicAssignTest
+{
+
+};
+
 int main()
 {
 	// 모든 함수에서 전역변수에 접근 가능 (보안 취약)
@@ -65,8 +70,9 @@ int main()
 	// 구현된 외부변수 사용
 	e_global = 100;
 
+	//
 	// 메모리 동적할당
-	// 1. void* malloc(size_t size)
+	// 1. void* malloc(size_t size), free(void*)
 	// 반환타입 void* : 프로그래머가 원하는 타입의 포인터로 캐스팅하여 사용하는 용도
 	// 아래의 경우는 20 byte를 할당받아 int 타입으로 캐스팅 했으므로, int 타입 5칸을 할당받은 것
 	// 재할당 받는 경우, 기존에 할당받은 공간 뒤에 받는 것이 아니라 새로운 곳에 메모리 할당을 받게 됨
@@ -74,7 +80,21 @@ int main()
 	ptr1[0] = 0;
 	//ptr1[5] = 100;	// 할당받은 20 byte 공간을 초과한 곳에 접근(컴파일에러가 뜨지 않기 때문에 답이 없는것) : 다른 작업을 하다가 런타임에러를 일으키는 원인
 	free(ptr1);			// 할당받은 메모리 해제
-
+	//
+	// 2. new, delete
+	// 템플릿처럼 동작
+	// malloc 은 사용하려는 클래스의 생성자를 자동으로 호출해주지 않음
+	// => new 를 사용하면 동적 메모리 할당, 생성자 호출까지 해줌
+	// => delete 를 사용하면 new로 할당받은 소멸자를 호출하고 메모리를 해제해준다
+	DynamicAssignTest* dat = new DynamicAssignTest;
+	delete dat;
+	//
+	// 3. new[], delete[]
+	// 연속된 공간에 동적할당
+	int* arr = new int[5] {};
+	arr[2] = 2;	// 인덱스로 접근 가능
+	//delete arr;	// new[] 로 할당받은 것을 delete로 하면 배열의 첫번째 메모리만 해제됨
+	delete[] arr;
 
 	return 0;
 }
