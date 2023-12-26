@@ -6,7 +6,7 @@
 
 // 동적배열 역할을 수행할 수 있는 자료형 정의 (int값 예시)
 //struct DynamicArray
-template<typename T>	// 클래스 템플릿은 cpp가 아닌 h에 모두 구현해야 컴파일 에러가 일어나지 않음
+template<typename T>	// 클래스 템플릿은 cpp가 아닌 h에 모두 구현해야 링킹 에러가 일어나지 않음
 class DynamicArray
 {
 	private:
