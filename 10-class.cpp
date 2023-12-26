@@ -1,37 +1,36 @@
 #include <iostream>
 
-// ¿¬»êÀÚ ¿À¹ö·Îµù
 class String
 {
-	private: // (Á¢±ÙÁ¦ÇÑÀÚ µðÆúÆ® °ª)
+	private: // (ì ‘ê·¼ì œí•œìž ë””í´íŠ¸ ê°’)
 		char* pStr;
 		int maxLength;
 		int length;
 		
-		// ¹®ÀÚ¿­À» ÀúÀåÇÒ ¸Þ¸ð¸® Å©±â È®Àå
+		// ë¬¸ìžì—´ì„ ì €ìž¥í•  ë©”ëª¨ë¦¬ í¬ê¸° í™•ìž¥
 		void Resize(const int Size)
 		{
-			// 1. ¹®ÀÚ¿­ÀÇ ÃÖ´ë ÀÔ·Â°¡´É »çÀÌÁî º¯°æ
-			maxLength = Size + 1;	// ³Î ¹®ÀÚ(\0) °¨¾È
+			// 1. ë¬¸ìžì—´ì˜ ìµœëŒ€ ìž…ë ¥ê°€ëŠ¥ ì‚¬ì´ì¦ˆ ë³€ê²½
+			maxLength = Size + 1;	// ë„ ë¬¸ìž(\0) ê°ì•ˆ
 
-			// 2. ¸Þ¸ð¸® ÀçÇÒ´ç
+			// 2. ë©”ëª¨ë¦¬ ìž¬í• ë‹¹
 			char* pNew = (char*)malloc(sizeof(char) * maxLength);
 
-			// 3. ¿øº» µ¥ÀÌÅÍ¸¦ ÀçÇÒ´ç¹ÞÀº ¸Þ¸ð¸®¿¡ ¿Å±ä´Ù
+			// 3. ì›ë³¸ ë°ì´í„°ë¥¼ ìž¬í• ë‹¹ë°›ì€ ë©”ëª¨ë¦¬ì— ì˜®ê¸´ë‹¤
 			for (int i = 0; i < length; i++)
 			{
 				pNew[i] = pStr[i];
 			}
 
-			// 4. ±âÁ¸ ¸Þ¸ð¸® ÇØÁ¦
+			// 4. ê¸°ì¡´ ë©”ëª¨ë¦¬ í•´ì œ
 			free(pStr);
 
-			// 5. »õ·Î ÇÒ´çÇÑ °ø°£À» °¡¸®Å²´Ù
+			// 5. ìƒˆë¡œ í• ë‹¹í•œ ê³µê°„ì„ ê°€ë¦¬í‚¨ë‹¤
 			pStr = pNew;
 		}
 
 	public:
-		// »ý¼ºÀÚ
+		// ìƒì„±ìž
 		String() : maxLength(10), length(0)
 		{
 			pStr = (char*)malloc(sizeof(char) * (maxLength));
@@ -49,90 +48,90 @@ class String
 			*this = str;
 		}
 
-		// ¼Ò¸êÀÚ
+		// ì†Œë©¸ìž
 		~String()
 		{
 			if (pStr != nullptr) free(pStr);
 		}
 
-		// ¿¬»êÀÚ ¿À¹ö·Îµù
-		// ´ëÀÔ ¿¬»êÀÚ
+		// ì—°ì‚°ìž ì˜¤ë²„ë¡œë”©
+		// ëŒ€ìž… ì—°ì‚°ìž
 		void operator= (const char* str)
 		{
-			// 1. ´ëÀÔÇÏ·Á´Â ¹®ÀÚ¿­ ±æÀÌ ÆÄ¾Ç
+			// 1. ëŒ€ìž…í•˜ë ¤ëŠ” ë¬¸ìžì—´ ê¸¸ì´ íŒŒì•…
 			int length = 0;
 			while (str[length] != '\0')
 			{
 				length++;
 			}
 
-			// 2. ÇÊ¿ä½Ã ¸Þ¸ð¸® È®Àå
+			// 2. í•„ìš”ì‹œ ë©”ëª¨ë¦¬ í™•ìž¥
 			if (length >= maxLength) Resize(length);
 
-			// 3. ÀÔ·ÂÇÑ ¹®ÀÚ¿­ ´ëÀÔ
+			// 3. ìž…ë ¥í•œ ë¬¸ìžì—´ ëŒ€ìž…
 			for (int i = 0; i < length; i++)
 			{
 				pStr[i] = str[i];
 			}
 
-			// 4. ¸¶Áö¸·¿¡ ³Î ¹®ÀÚ Ãß°¡
+			// 4. ë§ˆì§€ë§‰ì— ë„ ë¬¸ìž ì¶”ê°€
 			pStr[length] = '\0';
 
-			// 5. ¹®ÀÚ¿­ ±æÀÌ °»½Å
-			this->length = ++length;	// ³Î ¹®ÀÚ ¶§¹®¿¡ 1 Áõ°¡
+			// 5. ë¬¸ìžì—´ ê¸¸ì´ ê°±ì‹ 
+			this->length = ++length;	// ë„ ë¬¸ìž ë•Œë¬¸ì— 1 ì¦ê°€
 		}
 
 		void operator= (const String& str)
 		{
-			// »ý¼ºÀÚ ÀÌ´Ï¼È¶óÀÌÀú¿¡¼­ ¹®ÀÚ¿­ÀÇ ÇöÀç±æÀÌ, ÃÖ´ë±æÀÌ´Â ÃÊ±âÈ­ ÇØÁÖ¾úÀ¸¹Ç·Î
-			// ¹®ÀÚ¿­¸¸ ´ëÀÔÇØÁÖ¸é µÈ´Ù
+			// ìƒì„±ìž ì´ë‹ˆì…œë¼ì´ì €ì—ì„œ ë¬¸ìžì—´ì˜ í˜„ìž¬ê¸¸ì´, ìµœëŒ€ê¸¸ì´ëŠ” ì´ˆê¸°í™” í•´ì£¼ì—ˆìœ¼ë¯€ë¡œ
+			// ë¬¸ìžì—´ë§Œ ëŒ€ìž…í•´ì£¼ë©´ ëœë‹¤
 			for (int i = 0; i < length; i++)
 			{
 				pStr[i] = str.pStr[i];
 			}
 		}
 
-		// µ¡¼À ´ëÀÔ ¿¬»êÀÚ
+		// ë§ì…ˆ ëŒ€ìž… ì—°ì‚°ìž
 		void operator+= (const char* str)
 		{
-			// 1. Ãß°¡ÇÏ·Á´Â ¹®ÀÚ¿­ ±æÀÌ ÆÄ¾Ç
+			// 1. ì¶”ê°€í•˜ë ¤ëŠ” ë¬¸ìžì—´ ê¸¸ì´ íŒŒì•…
 			int length = 0;
 			while (str[length] != '\0')
 			{
 				length++;
 			}
 
-			// 2. ÇÊ¿ä½Ã ¸Þ¸ð¸® È®Àå, ÃÖ´ë ±æÀÌ °»½Å
+			// 2. í•„ìš”ì‹œ ë©”ëª¨ë¦¬ í™•ìž¥, ìµœëŒ€ ê¸¸ì´ ê°±ì‹ 
 			if (this->length + length > this->maxLength) Resize(this->maxLength = this->length + length);
 
-			// 3. ¹®ÀÚ¿­ ÀÌ¾îºÙÀÌ±â
+			// 3. ë¬¸ìžì—´ ì´ì–´ë¶™ì´ê¸°
 			for (int i = 0; i < length; i++)
 			{
 				pStr[this->length-1+i] = str[i];
 			}
 
-			// 4. ³¡¿¡ ³Î ¹®ÀÚ Ãß°¡, ÇöÀç ¹®ÀÚ¿­ ±æÀÌ °»½Å
+			// 4. ëì— ë„ ë¬¸ìž ì¶”ê°€, í˜„ìž¬ ë¬¸ìžì—´ ê¸¸ì´ ê°±ì‹ 
 			this->length += length;
 			pStr[this->length - 1] = '\0';
 		}
 
 		void operator+= (const String& str)
 		{
-			// 1. ÇÊ¿ä½Ã ¸Þ¸ð¸® È®Àå, ÃÖ´ë ±æÀÌ °»½Å
+			// 1. í•„ìš”ì‹œ ë©”ëª¨ë¦¬ í™•ìž¥, ìµœëŒ€ ê¸¸ì´ ê°±ì‹ 
 			if (length + str.length > maxLength) Resize(maxLength = length + str.length);
 
-			// 2. ¹®ÀÚ¿­ ÀÌ¾îºÙÀÌ±â
+			// 2. ë¬¸ìžì—´ ì´ì–´ë¶™ì´ê¸°
 			for (int i=0; i<str.length; i++)
 			{
 				pStr[length - 1 + i] = str.pStr[i];
 			}
 
-			// 3. ³¡¿¡ ³Î ¹®ÀÚ Ãß°¡, ÇöÀç ¹®ÀÚ¿­ ±æÀÌ °»½Å
+			// 3. ëì— ë„ ë¬¸ìž ì¶”ê°€, í˜„ìž¬ ë¬¸ìžì—´ ê¸¸ì´ ê°±ì‹ 
 			length += str.length;
 			pStr[length - 1] = '\0';
 		}
 
-		// µ¡¼À ¿¬»êÀÚ
+		// ë§ì…ˆ ì—°ì‚°ìž
 		String operator+ (const String& str)
 		{
 			String newStr = pStr;
@@ -141,7 +140,7 @@ class String
 			return newStr;
 		}
 
-		// private ¸â¹ö Getter
+		// private ë©¤ë²„ Getter
 		int Length()
 		{
 			return length;
@@ -153,7 +152,7 @@ class String
 		}
 
 		/*
-		// ÁÖ¼Ò Å×½ºÆ®¿ë
+		// ì£¼ì†Œ í…ŒìŠ¤íŠ¸ìš©
 		char**const GetStrAddress()
 		{
 			return &pStr;
@@ -161,8 +160,8 @@ class String
 		*/
 };
 
-// Àü¿ª ¿¬»êÀÚ ¿À¹ö·Îµù
-// µ¡¼À ¿¬»êÀÚ
+// ì „ì—­ ì—°ì‚°ìž ì˜¤ë²„ë¡œë”©
+// ë§ì…ˆ ì—°ì‚°ìž
 String operator+ (const char* str1, const String& str2)
 {
 	String newStr = str1;
@@ -173,30 +172,30 @@ String operator+ (const char* str1, const String& str2)
 
 int main()
 {
-	// String::operator=.(const char*)°¡ È£ÃâµÊ
+	// String::operator=.(const char*)ê°€ í˜¸ì¶œë¨
 	String str1;
 	str1 = "abc";
 	str1 += "def";
 
-	// String::»ý¼ºÀÚ(const char*) °¡ È£ÃâµÊ
+	// String::ìƒì„±ìž(const char*) ê°€ í˜¸ì¶œë¨
 	String str2 = "hello";
 
-	// °´Ã¼ ¼Ò¸ê½Ã µ¿ÀûÇÒ´ç ¸Þ¸ð¸®¸¦ Á¤¸®ÇÒ ¶§ ¹®Á¦¸¦ ÀÏÀ¸Å°´Â °æ¿ì
-	String str3 = str2;	// »ý¼ºÀÚ ·Î±×°¡ ¾ÈÂïÈû
-	String str4(str2);	// »ý¼ºÀÚ ·Î±×°¡ ¾ÈÂïÈû
-	//std::cout << "str4 " << str4.GetStrAddress() << std::endl;	// ¼ÂÀÌ¼­ ¶È°°Àº pStr °¡¸®Å°´Â°Íµµ ¾Æ´Ñµ¥ ¿Ö?
+	// ê°ì²´ ì†Œë©¸ì‹œ ë™ì í• ë‹¹ ë©”ëª¨ë¦¬ë¥¼ ì •ë¦¬í•  ë•Œ ë¬¸ì œë¥¼ ì¼ìœ¼í‚¤ëŠ” ê²½ìš°
+	String str3 = str2;	// ìƒì„±ìž ë¡œê·¸ê°€ ì•ˆì°íž˜
+	String str4(str2);	// ìƒì„±ìž ë¡œê·¸ê°€ ì•ˆì°íž˜
+	//std::cout << "str4 " << str4.GetStrAddress() << std::endl;	// ì…‹ì´ì„œ ë˜‘ê°™ì€ pStr ê°€ë¦¬í‚¤ëŠ”ê²ƒë„ ì•„ë‹Œë° ì™œ?
 	//std::cout << str4.GetString() << std::endl;
 	//std::cout << "str3 " << str3.GetStrAddress() << std::endl;
 	//std::cout << str3.GetString() << std::endl;
 	//std::cout << "str2 " << str2.GetStrAddress() << std::endl;
 	//std::cout << str2.GetString() << std::endl;
-	// => String::»ý¼ºÀÚ(const String&) À» Á¤ÀÇÇÏ¸é ¹®Á¦°¡ ÇØ°áµÊ. ±Ùµ¥ ÀÌ »ý¼ºÀÚ¸¦ Á¤ÀÇÇÏÁö ¾Ê¾ÒÀ»¶§µµ ¼¼ °´Ã¼ÀÇ ÁÖ¼Ò°ªÀÌ °¢°¢ ´Þ¶ú´Âµ¥ ¹¹Áö
+	// => String::ìƒì„±ìž(const String&) ì„ ì •ì˜í•˜ë©´ ë¬¸ì œê°€ í•´ê²°ë¨. ê·¼ë° ì´ ìƒì„±ìžë¥¼ ì •ì˜í•˜ì§€ ì•Šì•˜ì„ë•Œë„ ì„¸ ê°ì²´ì˜ ì£¼ì†Œê°’ì´ ê°ê° ë‹¬ëžëŠ”ë° ë­ì§€
 
-	// String::operator+.(const String&) °¡ È£ÃâµÊ
+	// String::operator+.(const String&) ê°€ í˜¸ì¶œë¨
 	String concat1 = str1 + str2;
 	String concat2 = str1 + "zzz";
 
-	// ::operator+.(const String&) °¡ È£ÃâµÊ
+	// ::operator+.(const String&) ê°€ í˜¸ì¶œë¨
 	String concat3 = "ABC" + str1;
 
 	return 0;
