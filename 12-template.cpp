@@ -14,7 +14,13 @@ class TemplateTest
  private:
   T1 t1;
   T2 t2;
- public;
+ public:
+  TemplateTest(T1 t1, T2 t2)
+  {
+     this->t1 = t1;
+     this->t2 = t2;
+  }
+  
   T1 GetT1() { return t1; }
 };
  
@@ -22,6 +28,7 @@ class TemplateTest
 int main()
 {
   int value = Add<int>(10, 20);
+  TemplateTest t(10, 2.f);
 
   return 0;
 }
