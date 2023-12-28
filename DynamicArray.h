@@ -1,4 +1,7 @@
 #pragma once
+#include "assert.h"
+#include <iostream>
+using std::cout;
 
 //
 // C++ 의 vector.h 에 구현되어 있음
@@ -13,7 +16,7 @@ class DynamicArray
 		void Resize();
 
 	public:
-		T* pData;			// 데이터를 저장할 주소
+		T* pData;		// 데이터를 저장할 주소
 		int maxLength;		// 허용 가능한 최대 길이
 		int currentLength;	// 현재 저장된 길이
 
@@ -30,7 +33,64 @@ class DynamicArray
 		int Size() { return currentLength; }
 		//
 		// [] 연산자 오버로딩
-		int& operator[](int index) { return pdata[index]; }
+		int& operator[](int index) { return pData[index]; }
+		//
+		// 반복자 클래스
+		class iterator
+		{
+			private:
+				DynamicArray<T>* ptr;
+				int index;
+
+			public:
+				iterator(DynamicArray<T>* dArr, int index) : ptr(dArr), index(index){}
+				
+				T& operator* () { return ptr->pData[index]; }
+				
+				void operator++ () 
+				{
+					if (ptr)
+					{
+						if (index < ptr->currentLength) ++index;
+						else assert(nullptr);
+					}
+				}
+
+				void operator-- () 
+				{ 
+					if (ptr)
+					{
+						if (index > 0) --index;
+						else assert(nullptr);
+					}
+				}
+
+				bool operator== (const iterator& other)
+				{
+					if (ptr == other.ptr && index == other.index) return true;
+					else return false;
+				}
+
+				bool operator!= (const iterator& other)
+				{
+					return !(*this == other);
+				}
+		};
+
+		// DynamicArray 시작 인덱스를 가리키는 포인터 리턴
+		iterator begin() 
+		{
+			iterator iter = iterator(this, 0);
+			cout << "iterator 지역변수 주소 테스트 = " << &iter << "\n";
+			return iter; 
+		}
+
+		// DynamicArray 인덱스의 끝의 다음을 가리키는 포인터 리턴
+		iterator end()
+		{
+			iterator iter = iterator(this, this->currentLength+1);
+			return iter;
+		}
 };
 
 /*
