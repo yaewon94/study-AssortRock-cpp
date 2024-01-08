@@ -72,15 +72,35 @@ class DynamicArray
 				{
 					assert(dArr 
 							&& currentIndex < dArr->currentLength);
-					++currentIndex;
+					
+					// end iterator에서 호출한 경우
+					if (currentIndex = -1) assert(nullptr);
+					// 마지막 인덱스에서 호출한 경우, end iterator가 되도록 함
+					else if (currentIndex == dArr->currentLength - 1) currentIndex = -1;
+					else ++currentIndex;
+					
 					return *this;
 				}
 
 				iterator& operator-- () 
 				{ 
-					assert(dArr 
-							&& currentIndex > 0);
-					--currentIndex;
+					assert(dArr);
+					
+					// begin iterator 에서 호출된 경우
+					assert(currentIndex);
+					// end iterator 에서 호출된 경우
+					if (currentIndex == -1)
+					{
+						// 데이터가 하나도 없는 경우 예외처리
+						assert(dArr->currentLength);
+						// 데이터가 있는 경우 마지막 데이터를 가리킴
+						currentIndex = dArr->currentLength - 1;
+					}
+					else
+					{
+						--currentIndex;
+					}
+
 					return *this;
 				}
 
@@ -116,12 +136,7 @@ class DynamicArray
 		// DynamicArray 시작 인덱스를 가리키는 포인터 리턴
 		iterator begin() 
 		{
-			iterator iter = iterator(this, 0);
-
-			// [?] iter 는 지역변수인데 함수종료뒤에 왜 안사라지는거임? 
-			// [?] 클래스 객체는 new 안써도 스택이 아니라, 힙에 생성되는건가?
-			//cout << "iterator 지역변수 주소 테스트 = " << &iter << "\n";
-			return iter; 
+			return iterator(this, 0);
 		}
 
 		// DynamicArray 인덱스의 끝의 다음을 가리키는 포인터 리턴
@@ -142,7 +157,7 @@ int Get(DynamicArray*, const int);
 template<typename T>
 void DynamicArray<T>::Push(const T& Value)
 {
-	if (currentLength == maxLength) Resize();
+	if (currentLength >= maxLength) Resize();
 	pData[currentLength++] = Value;
 }
 
@@ -150,7 +165,6 @@ void DynamicArray<T>::Push(const T& Value)
 template<typename T>
 void DynamicArray<T>::Resize()
 {
-	//int* newArr = (int*)malloc(maxLength * 2 * sizeof(int));
 	T* newArr = new T[maxLength *= 2];
 
 	for (int i = 0; i < maxLength; i++)
@@ -158,19 +172,16 @@ void DynamicArray<T>::Resize()
 		newArr[i] = pData[i];
 	}
 
-	//free(pData);
 	delete[] pData;
 
 	pData = newArr;
-
-	//maxLength *= 2;
 }
 
 // 배열 값 가져오기
 template<typename T>
 T DynamicArray<T>::Get(const int Index)
 {
-	if (Index >= currentLength) assert(!(Index >= currentLength));
+	assert(Index < currentLength);
 
 	return pData[Index];
 }
