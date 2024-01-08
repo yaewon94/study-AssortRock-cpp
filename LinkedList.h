@@ -58,6 +58,9 @@ class LinkedList
 			}
 		}
 
+		// 리스트가 비어있는지 여부
+		bool isEmpty() { return currentCount == 0 ? true : false; }
+
 		// 리스트 현재 크기 반환
 		int GetCount() { return currentCount; }
 
@@ -66,6 +69,12 @@ class LinkedList
 
 		// 리스트 맨 앞에 데이터 삽입
 		void PushFront(const T&);
+
+		// 리스트 맨 앞의 데이터 제거
+		T PopFront();
+		
+		// 리스트 맨 뒤의 데이터 제거
+		T PopBack();
 		
 		// 반복자 클래스
 		class iterator
@@ -198,9 +207,41 @@ void LinkedList<T>::PushFront(const T& data)
 	currentCount++;
 }
 
-// 현재 iterator 위치에 데이터 삽입
+// 리스트 맨 앞의 데이터 제거
 template<typename T>
+T LinkedList<T>::PopFront()
+{
+	// 1. 헤드가 널포인터인 경우 예외처리
+	assert(pHead);
+
+	// 2. 헤드가 들고있는 데이터를 복사해둔다
+	T data = pHead->data;
+	
+	// 3. 헤드의 다음이 존재하는지 여부 체크
+	if(pHead->pNext == nullptr)
+	{
+		delete pHead;
+		pHead = nullptr;
+		pTail = nullptr;
+	}
+	else
+	{
+		pHead = pHead->pNext;
+		delete pHead->pPrev;
+		pHead->pPrev = nullptr;
+	}
+	
+	// 4. 리스트 카운트 감소
+	--currentCount;
+
+	// 5. 삭제한 노드에 있던 반환
+	// 노드는 삭제되었으므로 & 타입으로 반환하면 안된다
+	return data;
+}
+
+// 현재 iterator 위치에 데이터 삽입
 // 내부클래스를 반환 타입으로 할 경우 typename 키워드를 붙여야 함
+template<typename T>
 typename LinkedList<T>::iterator LinkedList<T>::insert(iterator target, const T& data)
 {
 	// 1. target iterator 가 해당 리스트를 가리키는 것인지 확인
